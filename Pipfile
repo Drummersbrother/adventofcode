@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 numpy = "*"
 tqdm = "*"
+line-profiler-pycharm = "==1.1.0"
 
 [dev-packages]
 
