@@ -7,6 +7,7 @@ name = "pypi"
 numpy = "*"
 tqdm = "*"
 line-profiler-pycharm = "==1.1.0"
+scikit-image = "*"
 
 [dev-packages]
 

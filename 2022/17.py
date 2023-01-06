@@ -157,53 +157,6 @@ def part2(data):
     return highest_set - 1
 
 
-def part3(data):
-    tot_fall = 2022
-
-    field_offset = 0
-    field = [np.zeros((7,)) for _ in range(4000)]#np.zeros((tot_fall*4 + 15, 7))
-    field[0] = np.ones((7,))
-
-    def mutate(s, v):
-        for inx, finx in enumerate(range(*s)):
-            field[finx+field_offset] = v[inx]
-
-    def get(s):
-        _data = []
-        for inx in range(*s):
-            _data.append(field[inx+field_offset])
-        return np.array(_data)
-
-    highest_set = 1
-    #pprint = lambda a: print((a.T)[::-1])
-    wind_dirs = cycle(data)
-    for fall_inx in range(tot_fall):
-        rock = Rock(fall_inx)
-        cur_height = highest_set + 3
-        while True:
-            d = next(wind_dirs)
-            if (get((cur_height, cur_height+rock.h)) * rock.get_wind_moved(d).T).sum() == 0:
-                rock.move_wind(d)
-                #print("tried move", d)
-                #temp_field = field.copy()
-                #temp_field[:, cur_height:cur_height+rock.h] += rock.lines
-                #pprint(temp_field[:, :cur_height+4])
-                #print("--------"*3)
-            if (get(((cur_height-1), (cur_height-1)+rock.h)) * rock.lines.T).sum() == 0:
-                cur_height -= 1
-            else:
-                mutate((cur_height, cur_height+rock.h), get((cur_height, cur_height+rock.h)) + rock.lines.T)
-                break
-        highest_set = field_offset + [(inx, l) for inx, l in enumerate(field) if max(l) > 0][-1][0]+1
-
-        if fall_inx % 100 == 0: print(fall_inx)
-        #print("START")
-        #pprint(field[:, :highest_set])
-        #print("END")
-
-    return highest_set-1
-
-
 if __name__ == "__main__":
     data = parse_input()
     print("Part 1:", part1(data))
